@@ -15,14 +15,16 @@ public class Casa {
     private String nom;
     private int superficie;
     private boolean interuptor;
+    private ArrayList<PlacaSolar> placas;
+    private ArrayList<Aparell> aparell;
     
     public Casa(String NIF, String nom, int superficie){
         this.NIF = NIF;
         this.nom = nom;
         this.superficie = superficie;
         interuptor = true;
-        ArrayList<PlacaSolar> placas = new ArrayList<>();
-        ArrayList<Aparell> aparell = new ArrayList<>();
+        placas = new ArrayList<>();
+        aparell = new ArrayList<>();
     }  
     public String getNIF(){
          return this.NIF;
@@ -36,9 +38,16 @@ public class Casa {
     public boolean getInteruptor(){
          return this.interuptor;
      }
-    public int superficieRestante(int superficiePlacas){
-        int superficieRestante = this.superficie - superficiePlacas;
+    public int superficieRestante(){
+        int superficieSum = 0;
+        for(int i = 0; i < placas.size(); i++){
+             superficieSum += placas.get(i).getSuperficie();
+        }
+        int superficieRestante = this.superficie - superficieSum;
         return superficieRestante;
+    }
+    public void afegirPlaca(PlacaSolar miPlaca){
+        placas.add(miPlaca);
     }
  }
  

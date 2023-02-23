@@ -30,16 +30,18 @@ public class PlacasSolares {
         casas = new ArrayList<>();
         boolean NIFRepe;
         boolean quit = false;
+        
         do {
             System.out.print("> ");
             String parametro = consola.readLine();
             String[] respuesta = parametro.split(" ");
+            Casa casa = buscarCasa(respuesta[1]);
             switch (respuesta[0].toLowerCase()) {
                 case "addcasa":
                     if (respuesta.length == 4) {
                         NIFRepe = false;
                         int numero = Integer.parseInt(respuesta[3]);
-                        Casa casa = buscarCasa(respuesta[1]);
+                        
                         if (casas.isEmpty() == false) {
                             if(casa != null){
                                     NIFRepe = true;  
@@ -52,7 +54,7 @@ public class PlacasSolares {
                                     casas.add(miCasa);
                                     System.out.println("OK: Casa registrada.");
                                 } else {
-                                    System.out.println("ERROR: Este NIF ya esta registrado");
+                                    System.out.println("ERROR: Ja hi ha una casa registrada amb aquest nif");
                                 }
                             } else {
                                 System.out.println("ERROR: No es un NIF valido");
@@ -69,7 +71,6 @@ public class PlacasSolares {
                     float precio = Float.parseFloat(respuesta[3]);
                     int potencia = Integer.parseInt(respuesta[4]);
                     if (respuesta.length == 5) {
-                        Casa casa = buscarCasa(respuesta[1]);
                         if (casa != null) {
                             if (superficie > 0) {
                                 if (precio > 0) {
@@ -98,8 +99,39 @@ public class PlacasSolares {
                     }
                     break;
                 case "addaparell":
+                    
                     if (respuesta.length == 4) {
+                        
+                        potencia = Integer.parseInt(respuesta[3]);
+                        if(casa != null){
+                            if (potencia > 0){
+                                Aparell miAparell = new Aparell(respuesta[2], potencia);
+                                casa.afegirAparell(miAparell);
+                                System.out.println("OK: Aparell añadida a la casa.");
+                            }else{
+                                System.out.println("ERROR: Potencia incorrecta. Ha de ser més gran de 0.");
+                            }
+                        }else{
+                            System.out.println("ERROR: No hi ha cap casa registrada amb aquest nif.");
+                        }
+                    }else{
+                        System.out.println("ERROR: Número de paràmetres incorrecte.");
+                    }
+                case "oncasa":
+                    if (respuesta.length == 2) {
+                        if(casa != null){
+                            if (casa.isInteruptor() == false) {
+                                casa.setInteruptor(true);
+                                System.out.println("OK: Interruptor encès.");
 
+                            }else{
+                                System.out.println("ERROR: La casa ja té l'interruptor encès.");
+                            }
+                        }else{
+                              System.out.println("ERROR: No hi ha cap casa registrada amb aquest nif.");
+                        }
+                    }else{
+                        System.out.println("ERROR: Número de paràmetres incorrecte.");
                     }
                 case "list":
 

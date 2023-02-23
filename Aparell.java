@@ -16,6 +16,7 @@ public class Aparell {
     public Aparell(String descripcion, int potencia){
         this.descripcion = descripcion;
         this.consumo = consumo;
+        this.interuptor = false;
     }  
     public String getDescripcion(){
          return this.descripcion;

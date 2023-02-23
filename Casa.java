@@ -22,7 +22,7 @@ public class Casa {
         this.NIF = NIF;
         this.nom = nom;
         this.superficie = superficie;
-        interuptor = true;
+        interuptor = false;
         placas = new ArrayList<>();
         aparell = new ArrayList<>();
     }  
@@ -35,7 +35,7 @@ public class Casa {
     public int getSuperficie(){
          return this.superficie;
      }
-    public boolean getInteruptor(){
+    public boolean isInteruptor(){
          return this.interuptor;
      }
     public int superficieRestante(){
@@ -46,8 +46,14 @@ public class Casa {
         int superficieRestante = this.superficie - superficieSum;
         return superficieRestante;
     }
+    public void setInteruptor(boolean estado) {
+    this.interuptor = estado;
+}
     public void afegirPlaca(PlacaSolar miPlaca){
         placas.add(miPlaca);
+    }
+     public void afegirAparell(Aparell miAparell){
+        aparell.add(miAparell);
     }
  }
  

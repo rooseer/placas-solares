@@ -28,5 +28,4 @@ public class PlacaSolar {
     public int getPotencia(){
          return this.potencia;
      }
-    
 }

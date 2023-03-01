@@ -21,13 +21,10 @@ public class Aparell {
     public String getDescripcion(){
          return this.descripcion;
      }
-    public boolean isInteruptor(){
+    public boolean getInteruptor(){
          return this.interuptor;
      }
     public int getConsumo(){
          return this.consumo;
      }
-    public void setInteruptor(boolean estado) {
-        this.interuptor = estado;
-    }
 }

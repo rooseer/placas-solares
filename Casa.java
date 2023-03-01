@@ -43,6 +43,9 @@ public class Casa {
     public ArrayList<Aparell> getAparells() {
         return aparell;
     }
+     public ArrayList<PlacaSolar> getPlacas() {
+        return placas;
+    }
     /* creamos un metodo que nos calcule la superficie que le queda a esa casa para saber si cabe la placaSolar*/
     public int superficieRestante(){
         //definimos una variable para sumar la superficie total con todas las placas que hay en la casa y le decimos que por defecto vale 0
@@ -68,10 +71,41 @@ public class Casa {
     public void afegirAparell(Aparell miAparell){
         aparell.add(miAparell);
     }
-    /*public String buscarDescripcionAparell(String miDescripcion){
+    public Aparell buscarAparell(String miDescripcion){
         for (int i=0; i < aparell.size(); i++){
-            if(aparell.get(i).getDescripcion()){
+            if(aparell.get(i).getDescripcion().equals(miDescripcion)){
+                return aparell.get(i);
+            }
         }
-    }*/
- }
- 
+        return null;
+    }
+    
+    public int potenciaPlacas(){
+        int totalPotencia = 0;
+        for(int i = 0; i < placas.size();i++){
+            totalPotencia  += placas.get(i).getPotencia();
+        }
+        return totalPotencia;
+    }
+    public int potenciaAparells(){
+        int totalPotencia = 0;
+        for(int i = 0; i < aparell.size();i++){
+            if(aparell.get(i).isInteruptor() == true){
+                totalPotencia  += aparell.get(i).getConsumo();
+            }
+        }
+        return totalPotencia;
+    }
+    public int Inversion(){
+        int totalPrecio = 0;
+        for(int i = 0; i < placas.size();i++){   
+            totalPrecio  += placas.get(i).getPrecio();
+        }
+        return totalPrecio;
+    }
+    
+    
+    
+    
+    
+}

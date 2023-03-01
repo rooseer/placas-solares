@@ -98,7 +98,7 @@ public class PlacasSolares {
                             System.out.println("ERROR: Superficie incorrecta. Ha de ser més gran de 10.");
                         }
                     } else {//si no es el numero de parametros correcto nos escribira este error:
-                        System.out.println("ERROR: Número de paràmetres incorrecte.");
+                        System.out.println("ERROR: Número de paràmetres incorrecte. \nÚs: addCasa [nif] [nom] [superficie]");
                     }
                     break;
                 //cremos otro caso para el addplaca para que cuando se llame a este caso se añada una placa si cumple los requisitos
@@ -127,7 +127,7 @@ public class PlacasSolares {
                                             en la clase de casa y le pasamos el parametro de miPlaca es decir la placa que estamos añadiendo ahora */
                                             casa.afegirPlaca(miPlaca);
                                             //Y mostramos un mensaje conforme la placa se ha añadido correctamente
-                                            System.out.println("OK: Placa añadida a la casa.");
+                                            System.out.println("OK: Placa afegida a la casa.");
                                         } else {// si la superficie que le pasamos es mayor que la que nos queda en la casa nos mostrara mensaje de error
                                             System.out.println("ERROR: No hi ha espai disponible per a instal·lar aquesta placa.");
                                         }
@@ -144,7 +144,7 @@ public class PlacasSolares {
                             System.out.println("ERROR: No hi ha cap casa registrada amb aquest nif.");
                         }
                     } else {// y si no le pasamos todos los parametros de addplaca mostrara este error:
-                        System.out.println("ERROR: Número de paràmetres incorrecte.");
+                        System.out.println("ERROR: Número de paràmetres incorrecte. \nÚs: addPlaca [nif] [superficie] [preu] [potència]");
                     }
                     break;
                 /*hacemos otro caso para añadir un aparell, cuando el usuario escriba addaparell con mayusculas o 
@@ -165,7 +165,7 @@ public class PlacasSolares {
                                 en la clase de casa y le pasamos el parametro de miAparell es decir el aparell que estamos añadiendo ahora */
                                 casa.afegirAparell(miAparell);
                                 //Y mostramos mensaje conforme se ha añadido correctamente 
-                                System.out.println("OK: Aparell añadida a la casa.");
+                                System.out.println("OK: Aparell afegida a la casa.");
                             }else{
                                 System.out.println("ERROR: Potencia incorrecta. Ha de ser més gran de 0.");
                             }
@@ -173,7 +173,7 @@ public class PlacasSolares {
                             System.out.println("ERROR: No hi ha cap casa registrada amb aquest nif.");
                         }
                     }else{
-                        System.out.println("ERROR: Número de paràmetres incorrecte.");
+                        System.out.println("ERROR: Número de paràmetres incorrecte. \nÚs: addAparell [nif] [descripció] [potència]");
                     }
                     break;
                /* creamos otro caso para encender el interuptor general de la casa */
@@ -196,31 +196,84 @@ public class PlacasSolares {
                               System.out.println("ERROR: No hi ha cap casa registrada amb aquest nif.");
                         }
                     }else{
-                        System.out.println("ERROR: Número de paràmetres incorrecte.");
+                        System.out.println("ERROR: Número de paràmetres incorrecte. \nÚs: onCasa [nif]");
                     }
+                    break;
                 case "onaparell":
                     casa = buscarCasa(respuesta[1]);
                     if (respuesta.length == 3 ) {
-                         if(casa != null){
-                             if (casa.isInteruptor() == true) {
-                                    for (int i= 0; i < casa.getAparells().size(); i++){
-                                        if(casa.getNIF().equals(respuesta[1])){
-                                            // hacer metodo en la clase casa que recorra araylist de apparells y compare la descripcion (miAparell.getDescripcion())
-                                            
+                        if(casa != null){
+                            if (casa.isInteruptor() == true) {
+                                if (casa.buscarAparell(respuesta[2]) != null){
+                                    if(casa.buscarAparell(respuesta[2]).isInteruptor()== false){
+                                        casa.buscarAparell(respuesta[2]).setInteruptor(true);
+                                        System.out.println("OK: Aparell encès.");
+                                        if(casa.potenciaPlacas() < casa.potenciaAparells()){
+                                            casa.setInteruptor(false);
+                                            System.out.println("ERROR: Han saltat els ploms. La casa ha quedat completament apagada.");
+                                            }
+                                        }else{
+                                            System.out.println("ERROR: L'aparell ja està encès.");
                                         }
+                                    }else{
+                                        System.out.println("ERROR: No hi ha cap aparell registrat amb aquesta descripció a la casa indicada.");
                                     }
-                             }else{
-                                 System.out.println("ERROR: No es pot encendre l'aparell. L'interruptor general està apagat.");
-                             }
-                         }else{
-                              System.out.println("ERROR: No hi ha cap casa registrada amb aquest nif.");
+                            }else{
+                                System.out.println("ERROR: No es pot encendre l'aparell. L'interruptor general està apagat.");
+                            }
+                        }else{
+                            System.out.println("ERROR: No hi ha cap casa registrada amb aquest nif.");
                         }
                     }else{
-                        System.out.println("ERROR: Número de paràmetres incorrecte.");
+                        System.out.println("ERROR: Número de paràmetres incorrecte. \nÚs: onAparell [nif] [descripció aparell]");
                     }
-                    
+                    break;
+                case "offaparell":
+                    casa = buscarCasa(respuesta[1]);
+                    if (respuesta.length == 3 ) {
+                        if(casa != null){
+                            if (casa.buscarAparell(respuesta[2]) != null){
+                                if(casa.buscarAparell(respuesta[2]).isInteruptor()== true){
+                                    casa.buscarAparell(respuesta[2]).setInteruptor(false);
+                                    System.out.println("OK: Aparell apagat.");
+                                    }else{
+                                        System.out.println("ERROR: L'aparell ja està apagat.");
+                                    }
+                                }else{
+                                    System.out.println("ERROR: No hi ha cap aparell registrat amb aquesta descripció a la casa indicada.");
+                                }
+                        }else{
+                            System.out.println("ERROR: No hi ha cap casa registrada amb aquest nif.");
+                        }
+                    }else{
+                        System.out.println("ERROR: Número de paràmetres incorrecte. \nÚs: offAparell [nif] [descripció aparell]");
+                    }
+                    break;
                 case "list":
+                    if(respuesta.length == 1){
+                        if(casas.isEmpty() == false){
 
+                            System.out.println("--- Endolls Solars, S.L. ---");
+                            System.out.println("Cases enregistrades: " + casas.size());
+                            for (int i = 0; i < casas.size(); i++){
+                                System.out.println("Casa "+ i);
+                                System.out.println("Client: " + casas.get(i).getNIF() + " - " + casas.get(i).getNom() );
+                                System.out.println("Superfície de teulada: "+ casas.get(i).getSuperficie());
+                                System.out.println("Superfície disponible: "+ casas.get(i).superficieRestante());
+                                if(casas.get(i).isInteruptor()== true){
+                                    System.out.println("Interruptor general: encès");
+                                }else{
+                                    System.out.println("Interruptor general: apagat");
+                                }
+                                System.out.println("Plaques solars instal·lades: " + casas.get(i).getPlacas().size());
+                                System.out.println("Aparells registrats: " + casas.get(i).getAparells().size());
+                            }
+                        }else{
+                            System.out.println("No hi ha cases registrades.");
+                        }
+                    }else{
+                        System.out.println("ERROR: Número de paràmetres incorrecte.\nÚs: list");
+                    }
                     break;
                 case "quit":
                     quit = true;

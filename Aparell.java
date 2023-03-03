@@ -13,7 +13,7 @@ public class Aparell {
     private int consumo;
     private boolean interuptor;
     
-    public Aparell(String descripcion, int potencia){
+    public Aparell(String descripcion, int consumo){
         this.descripcion = descripcion;
         this.consumo = consumo;
         this.interuptor = false;

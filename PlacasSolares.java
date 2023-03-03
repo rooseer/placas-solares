@@ -60,6 +60,7 @@ public class PlacasSolares {
                     4 parametros, mientras la longitud de respuesta sea = a 4 nos ara el addcasa */
                     Casa casa = buscarCasa(respuesta[1]);
                     if (respuesta.length == 4) {
+                        
                         /*definimos que nifRepe por defecto esta en false ya que si lo comprueba y encuentra un NIF igual se
                         quedara en true y nos dara un falso resultado a la hora de comprobar otro NIF*/
                         NIFRepe = false;
@@ -103,40 +104,41 @@ public class PlacasSolares {
                     break;
                 //cremos otro caso para el addplaca para que cuando se llame a este caso se añada una placa si cumple los requisitos
                 case "addplaca":
-                    //llamamos al metodo buscar casa para que compruebe el nif que le pasamos 
-                    casa = buscarCasa(respuesta[1]);
-                    // convertimos los Strings a los tipos correspondientes, en este caso dos integers y un float
-                    int superficie = Integer.parseInt(respuesta[2]);
-                    float precio = Float.parseFloat(respuesta[3]);
-                    int potencia = Integer.parseInt(respuesta[4]);
                     /* y comenzamos con las comprobaciones, mientras se introduzcan 5 parametros inlcluyendo el 
                     addplaca seguira comprobando las demas condiciones*/
                     if (respuesta.length == 5) {
+                        //llamamos al metodo buscar casa para que compruebe el nif que le pasamos 
+                        casa = buscarCasa(respuesta[1]);
+                        // convertimos los Strings a los tipos correspondientes, en este caso dos integers y un float
+                        int superficie = Integer.parseInt(respuesta[2]);
+                        float precio = Float.parseFloat(respuesta[3]);
+                        int potencia = Integer.parseInt(respuesta[4]);
                         // si ha encontrado un nif igual al que le pasamos, es decir es diferente de null entra en la condicion
                         if (casa != null) {
                             // y mientras que la superficie, el precio y la potencia sean mayor que 0 se podra añadir la placa
                             if (superficie > 0) {
-                                if (precio > 0) {
-                                    if (potencia > 0) {
-                                        /*y por ultima comprobacion en el addplaca llamamos a la funcion que calcula la superficie que 
-                                        nos queda en esa casa, y mientras ese numero sea mayor o igual que la superficie que le pasamos
-                                        añadira la placa*/
-                                        if (casa.superficieRestante() >= superficie) {
+                                /*y por ultima comprobacion en el addplaca llamamos a la funcion que calcula la superficie que 
+                                nos queda en esa casa, y mientras ese numero sea mayor o igual que la superficie que le pasamos
+                                añadira la placa*/
+                                if (casa.superficieRestante() >= superficie) {
+                                    if (precio > 0) {
+                                        if (potencia > 0) {
+                                        
                                             PlacaSolar miPlaca = new PlacaSolar(superficie, precio, potencia);
                                             /*llamamos la funcion de afegirPlaca que añade las placas en el arrayList de placas que esta 
                                             en la clase de casa y le pasamos el parametro de miPlaca es decir la placa que estamos añadiendo ahora */
                                             casa.afegirPlaca(miPlaca);
                                             //Y mostramos un mensaje conforme la placa se ha añadido correctamente
                                             System.out.println("OK: Placa afegida a la casa.");
-                                        } else {// si la superficie que le pasamos es mayor que la que nos queda en la casa nos mostrara mensaje de error
-                                            System.out.println("ERROR: No hi ha espai disponible per a instal·lar aquesta placa.");
+                                        }else {// si la potencia, el precio y la superficie no es mayor que 0 nos mostrara los siguentes mensajes de error
+                                            System.out.println("ERROR: Potencia incorrecta. Ha de ser més gran de 0.");
                                         }
-                                    } else {// si la potencia, el precio y la superficie no es mayor que 0 nos mostrara los siguentes mensajes de error
-                                        System.out.println("ERROR: Potencia incorrecta. Ha de ser més gran de 0.");
+                                    } else {
+                                        System.out.println("ERROR: Preu incorrecta. Ha de ser més gran de 0.");
+                                        }
+                                }else {// si la superficie que le pasamos es mayor que la que nos queda en la casa nos mostrara mensaje de error
+                                    System.out.println("ERROR: No hi ha espai disponible per a instal·lar aquesta placa.");
                                     }
-                                } else {
-                                    System.out.println("ERROR: Precio incorrecta. Ha de ser més gran de 0.");
-                                }
                             } else {
                                 System.out.println("ERROR: Superficie incorrecta. Ha de ser més gran de 0.");
                             }
@@ -150,26 +152,26 @@ public class PlacasSolares {
                 /*hacemos otro caso para añadir un aparell, cuando el usuario escriba addaparell con mayusculas o 
                  minusculas mientras cumpla las condiciones indicadas*/
                 case "addaparell":
-                    casa = buscarCasa(respuesta[1]);
                     /*para que nos añada un aparell lo que tenemos que hacer es comprobar que el usuario haya 
                     introducido 4 parametros*/
                     if (respuesta.length == 4) {
+                        casa = buscarCasa(respuesta[1]);
                         //convertimos los parametros necesarios de String a su tipo, en este caso solo hay que pasar uno a integer
-                        potencia = Integer.parseInt(respuesta[3]);
+                        int potencia = Integer.parseInt(respuesta[3]);
                         // si encuentra un NIF igual al que le pasamos es decir esdecir no nos devuelve un null seguimos comprobando
                         if(casa != null){
                             //Y mientras la potencia sea mayor que 0 añadira el aparell 
                             if (potencia > 0){
-                                if(casa.buscarAparell(respuesta[2]).getDescripcion() != respuesta[2]){
-                                    Aparell miAparell = new Aparell(respuesta[2], potencia);
-                                    /*llamamos la funcion de afegirAparell que añade los aparells en el arrayList de aparell que esta 
-                                    en la clase de casa y le pasamos el parametro de miAparell es decir el aparell que estamos añadiendo ahora */
-                                    casa.afegirAparell(miAparell);
-                                    //Y mostramos mensaje conforme se ha añadido correctamente 
-                                    System.out.println("OK: Aparell afegida a la casa.");
-                                }else{
-                                    System.out.println("ERROR: Ja existeix un aparell amb aquesta descripció a la casa indicada.");
-                                }
+                                if(casa.buscarAparell(respuesta[2]) == null){
+                                        Aparell miAparell = new Aparell(respuesta[2], potencia);
+                                        /*llamamos la funcion de afegirAparell que añade los aparells en el arrayList de aparell que esta 
+                                        en la clase de casa y le pasamos el parametro de miAparell es decir el aparell que estamos añadiendo ahora */
+                                        casa.afegirAparell(miAparell);
+                                        //Y mostramos mensaje conforme se ha añadido correctamente 
+                                        System.out.println("OK: Aparell afegit a la casa.");
+                                    }else{
+                                        System.out.println("ERROR: Ja existeix un aparell amb aquesta descripció a la casa indicada.");
+                                    }
                             }else{
                                 System.out.println("ERROR: Potencia incorrecta. Ha de ser més gran de 0.");
                             }
@@ -182,16 +184,16 @@ public class PlacasSolares {
                     break;
                /* creamos otro caso para encender el interuptor general de la casa */
                 case "oncasa":
-                    casa = buscarCasa(respuesta[1]);
                     /*para encender el intrerruptor general lo unico que necesitamos es que pongan onCasa y el 
                     NIF es decir mientras pongan dos parametros entrara*/
                     if (respuesta.length == 2) {
+                        casa = buscarCasa(respuesta[1]);
                         if(casa != null){
                             /* el interruptor general solo se encendera si esta apagado osea si ya esta encendido mostrara mensaje de error, 
                             mientras este apagado es decir en false lo encendera y mostrara un mensaje conforme lo ha encendido*/
                             if (casa.isInteruptor() == false) {
                                 casa.setInteruptor(true);
-                                System.out.println("OK: Interruptor encès.");
+                                System.out.println("OK: Interruptor general activat.");
 
                             }else{
                                 System.out.println("ERROR: La casa ja té l'interruptor encès.");
@@ -204,18 +206,25 @@ public class PlacasSolares {
                     }
                     break;
                 case "onaparell":
-                    casa = buscarCasa(respuesta[1]);
+                    //comprobamos las condiciones para que se pueda encender el aparell
                     if (respuesta.length == 3 ) {
+                        casa = buscarCasa(respuesta[1]);
                         if(casa != null){
                             if (casa.isInteruptor() == true) {
                                 if (casa.buscarAparell(respuesta[2]) != null){
                                     if(casa.buscarAparell(respuesta[2]).isInteruptor()== false){
                                         casa.buscarAparell(respuesta[2]).setInteruptor(true);
-                                        System.out.println("OK: Aparell encès.");
+                                        //si la potencia de las placas es menor que la de aparells que salten los plomos
                                         if(casa.potenciaPlacas() < casa.potenciaAparells()){
                                             casa.setInteruptor(false);
+                                            for(int i= 0; i < casa.getAparells().size(); i++){
+                                                casa.getAparells().get(i).setInteruptor(false);
+                                            }
                                             System.out.println("ERROR: Han saltat els ploms. La casa ha quedat completament apagada.");
                                             }
+                                        else{
+                                            System.out.println("OK: Aparell encès");
+                                        }
                                         }else{
                                             System.out.println("ERROR: L'aparell ja està encès.");
                                         }
@@ -233,8 +242,9 @@ public class PlacasSolares {
                     }
                     break;
                 case "offaparell":
-                    casa = buscarCasa(respuesta[1]);
+                    //comprobamos las condiciones para que se pueda apagar el aparell
                     if (respuesta.length == 3 ) {
+                        casa = buscarCasa(respuesta[1]);
                         if(casa != null){
                             if (casa.buscarAparell(respuesta[2]) != null){
                                 if(casa.buscarAparell(respuesta[2]).isInteruptor()== true){
@@ -259,7 +269,7 @@ public class PlacasSolares {
                             System.out.println("--- Endolls Solars, S.L. ---");
                             System.out.println("Cases enregistrades: " + casas.size());
                             for (int i = 0; i < casas.size(); i++){
-                                System.out.println("Casa "+ i);
+                                System.out.println("Casa "+ (i+ 1));
                                 System.out.println("Client: " + casas.get(i).getNIF() + " - " + casas.get(i).getNom() );
                                 System.out.println("Superfície de teulada: "+ casas.get(i).getSuperficie());
                                 System.out.println("Superfície disponible: "+ casas.get(i).superficieRestante());
@@ -287,18 +297,23 @@ public class PlacasSolares {
                     }
                     break;
                 case "info":
-                    casa = buscarCasa(respuesta[1]);
                     if(respuesta.length == 2){
+                        casa = buscarCasa(respuesta[1]);
                         if(casa != null){
                             System.out.println("Client: " + casa.getNIF() + " - " + casa.getNom() );
                             System.out.println("Plaques solars instal·lades: " + casa.getPlacas().size());
-                            System.out.println("Potència total: " + casa.potenciaPlacas());
-                            System.out.println("Inversió total: " + casa.Inversion());
+                            System.out.println("Potència total: " + casa.potenciaPlacas()+"W");
+                            System.out.println("Inversió total: " + casa.inversion()+"€");
                             System.out.println("Aparells registrats: " + casa.getAparells().size());
-                            System.out.println("Consum actual: " + casa.potenciaAparells());
+                            System.out.println("Consum actual: " + casa.potenciaAparells()+ "W");
+                            // si la potencia de aparells es mayor que 0 que muestre los aparells que estan encencidos
                             if(casa.potenciaAparells() > 0){
-                                //for(int i = 0; i < casa.getAparells(); i++){
-                                System.out.println("Aparells encesos: \n - " );
+                                System.out.println("Aparells encesos:" );
+                            }
+                            for(int i= 0; i < casa.getAparells().size();i++){
+                                if(casa.getAparells().get(i).isInteruptor() == true){
+                                    System.out.println("- " +casa.getAparells().get(i).getDescripcion());
+                                }
                             }
                         }else{
                             System.out.println("ERROR: No hi ha cap casa registrada amb aquest nif.");
@@ -306,6 +321,7 @@ public class PlacasSolares {
                     }else{
                         System.out.println("ERROR: Número de paràmetres incorrecte.\nÚs: info [nif]");
                     }
+                    break;
                 case "quit":
                     if(respuesta.length == 1){
                         quit = true;
@@ -313,8 +329,10 @@ public class PlacasSolares {
                         System.out.println("ERROR: Número de paràmetres incorrecte.\nÚs: quit");
                     }
                     break;
+                    // si no es ninguno de los casos que imprima este error
                 default:
-                    System.out.println("Comanda incorrecta");
+                    System.out.println("ERROR: Comanda incorrecta");
+                    break;
             }
             
             
